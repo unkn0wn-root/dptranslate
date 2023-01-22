@@ -100,12 +100,7 @@ async function main() {
         const translt = await translate.translate()
         console.table(translt)
     } catch (err) {
-        if (err instanceof Error) {
-            console.error("[ERROR] ::", err.message)
-            return
-        }
-        
-        console.error(err)
+        console.error("[ERROR] ::", err.message)
     }
 }
 
