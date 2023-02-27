@@ -1,6 +1,6 @@
-# translate
-DeepL translate cli
+# DPtranslate
+DeepL translate CLI
 
-* Install: npm
-* Run: npm install && tsc
-* Command: node translate.js -h
+* First - make sure you have Node.js installed
+* Install all dependencies and compile - <b>npm install && tsc</b>
+* Then run to get started: <b>node translate.js -h</b>
