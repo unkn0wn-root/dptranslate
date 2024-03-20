@@ -15,7 +15,7 @@ To compile, follow these steps:
 3. Run the following command to compile DPtranslate:
 
    ```bash
-   go build -o translate ./b
+   go build -o dpcli .
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ Once you have compiled DPtranslate, you can start using it by following these st
 1. Run the following command to get started:
 
    ```bash
-   translate -h
+   dpcli -h
 
 This will display the help menu and provide you with information on how to use DPtranslate.
 
@@ -33,4 +33,4 @@ This will display the help menu and provide you with information on how to use D
 To translate text using DPtranslate, you can use the following command:
 
   ```bash
-  translate [OPTIONS] TEXT
+  dpcli [OPTIONS] TEXT

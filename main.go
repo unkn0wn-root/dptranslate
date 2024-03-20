@@ -1,15 +1,14 @@
 package main
 
 import (
-	deepl "deepl/translate"
 	"fmt"
 	"log"
 	"os"
 )
 
 func main() {
-	translate := deepl.NewTranslate()
-	deepl.ParseFlags(translate)
+	translate := NewTranslate()
+	ParseFlags(translate)
 
 	// check for api key from args. Fallback to env var if key is not provided by the user
 	if translate.APIKey == "" {
