@@ -34,7 +34,6 @@ func (t *Translate) GenerateURLSceheme() string {
 	return "https://api-free.deepl.com"
 }
 
-// perform the actual translation
 func (t *Translate) Translate() (*Translation, error) {
 	urlScheme := t.GenerateURLSceheme()
 	payload := map[string]string{
@@ -62,22 +61,14 @@ func (t *Translate) Translate() (*Translation, error) {
 	}
 
 	defer resp.Body.Close()
-
+	// DeepL returns 200. Assume error if != 200
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, err := io.ReadAll(resp.Body)
+		errResponse, err := checkErrorResponseBody(resp.Body)
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 		}
 
-		// if the body is empty, return a generic error message
-		errorMessage := func() string {
-			if len(bodyBytes) == 0 {
-				return "Could not make request to DeepL API"
-			}
-			return string(bodyBytes)
-		}()
-
-		apiError := NewAPIError(resp.StatusCode, errorMessage)
+		apiError := NewAPIError(resp.StatusCode, errResponse)
 		return nil, apiError
 	}
 
@@ -87,4 +78,22 @@ func (t *Translate) Translate() (*Translation, error) {
 	}
 
 	return &translation, nil
+}
+
+// check for error response in body (if any)
+func checkErrorResponseBody(body io.Reader) (string, error) {
+	bodyBytes, err := io.ReadAll(body)
+	if err != nil {
+		return "", err
+	}
+
+	errorMessage := func() string {
+		if len(bodyBytes) == 0 {
+			return "Could not make request to DeepL API"
+		}
+
+		return string(bodyBytes)
+	}()
+
+	return errorMessage, nil
 }
