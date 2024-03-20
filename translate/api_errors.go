@@ -1,14 +1,21 @@
 package deepl
 
 import (
+	"errors"
 	"fmt"
 )
 
 type APIError struct {
 	StatusCode int
-	Body       string
+	Err        error
 }
 
-func (e APIError) Error() string {
-	return fmt.Sprintf("API Error: status code %d, body %s", e.StatusCode, e.Body)
+func NewAPIError(statusCode int, errMsg string) error {
+	return &APIError{
+		StatusCode: statusCode,
+		Err:        errors.New(errMsg),
+	}
+}
+func (e *APIError) Error() string {
+	return fmt.Sprintf("API Error: Status Code: [%d], Error Message: %s", e.StatusCode, e.Err)
 }

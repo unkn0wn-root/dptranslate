@@ -3,7 +3,6 @@ package deepl
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -69,8 +68,17 @@ func (t *Translate) Translate() (*Translation, error) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		apiError := APIError{StatusCode: resp.StatusCode, Body: string(bodyBytes)}.Error()
-		return nil, errors.New(apiError)
+
+		// if the body is empty, return a generic error message
+		errorMessage := func() string {
+			if len(bodyBytes) == 0 {
+				return "Could not make request to DeepL API"
+			}
+			return string(bodyBytes)
+		}()
+
+		apiError := NewAPIError(resp.StatusCode, errorMessage)
+		return nil, apiError
 	}
 
 	var translation Translation
