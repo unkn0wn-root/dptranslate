@@ -26,7 +26,7 @@ func NewTranslate() *Translate {
 }
 
 // generate url scheme based on ProAPI flag
-func (t *Translate) GenerateURLSceheme() string {
+func (t *Translate) generateURLScheme() string {
 	if t.ProAPI {
 		return "https://api.deepl.com"
 	}
@@ -35,7 +35,7 @@ func (t *Translate) GenerateURLSceheme() string {
 }
 
 func (t *Translate) Translate() (*Translation, error) {
-	urlScheme := t.GenerateURLSceheme()
+	urlScheme := t.generateURLScheme()
 	payload := map[string]string{
 		"auth_key":    t.APIKey,
 		"text":        t.Text,
